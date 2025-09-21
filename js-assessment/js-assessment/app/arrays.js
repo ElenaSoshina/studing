@@ -37,32 +37,67 @@ const removeWithoutCopy = function(arr, item) {
 };
 
 const append = function(arr, item) {
-    arr.push(item)
-    return arr
+    // arr.push(item)
+    // return arr
+
+    const result = [...arr, item]
+    return result
 };
 
 const truncate = function(arr) {
-    arr.pop()
-    return arr
+    // arr.pop()
+    // return arr
+
+    const result = []
+    for (let i = 0; i < arr.length -1; i++) {
+        result[i] = arr[i]
+    }
+    return result
 };
 
 const prepend = function(arr, item) {
-    arr.unshift(item)
-    return arr
+    // arr.unshift(item)
+    // return arr
+
+    const result = [item, ...arr]
+    return result
 };
 
 const curtail = function(arr) {
-    arr.shift()
-    return arr
+    // arr.shift()
+    // return arr
+
+    const result = []
+    for (let i = 1; i < arr.length; i++) {
+        result[i-1] = arr[i]
+    }
+    return result
 };
 
 const concat = function(arr1, arr2) {
-    return arr1.concat(arr2)
+    // return arr1.concat(arr2)
+    const result = []
+    for (let i = 0; i < arr1.length; i++) {
+        result[i] = arr1[i]
+    }
+    for (let i = 0; i < arr2.length; i++) {
+        result[arr1.length + i] = arr2[i]
+    }
+    return result
 };
 
 const insert = function(arr, item, index) {
-    arr.splice(index, 0, item)
-    return arr
+    // arr.splice(index, 0, item)
+    // return arr
+    const result = []
+    for (let i = 0; i < index; i++) {
+        result[i] = arr[i]
+    }
+    result[index] = item
+    for (let i = index; i < arr.length; i++) {
+        result[i + 1] = arr[i]
+    }
+    return result
 };
 
 const count = function(arr, item) {
@@ -77,6 +112,7 @@ const duplicates = function(arr) {
         }
     }
     return dublicates
+    
 };
 
 const square = function(arr) {

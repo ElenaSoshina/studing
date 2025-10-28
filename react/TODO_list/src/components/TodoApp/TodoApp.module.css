@@ -1,0 +1,23 @@
+.todoApp {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.title {
+    text-align: center;
+    color: #333;
+    margin-bottom: 2rem;
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+@media (max-width: 768px) {
+    .todoApp {
+        padding: 1rem;
+    }
+
+    .title {
+        font-size: 2em;
+    }
+}

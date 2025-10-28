@@ -1,5 +1,7 @@
 import styles from './TodoItem.module.css'
-import { type Todo } from '../../App'
+import { type Todo } from '../../types/todo'
+import Button from '../ui/Button/Button'
+import Checkbox from '../ui/Checkbox/Checkbox'
 
 type TodoItemProps = {
     todo: Todo
@@ -16,13 +18,42 @@ type TodoItemProps = {
 const TodoItem = ({todo, onToggle, onDelete, isSelected, isFirst, isLast, onMoveUp, onMoveDown, onToggleSelection}: TodoItemProps) => {
     return (
         <div className={`${styles.item} ${todo.complited ? styles.completed : ''}`}>
-            <input type="checkbox" className={styles.checkbox} checked={isSelected} onChange={() => onToggleSelection(todo.id)}/>
+             <Checkbox 
+                checked={isSelected} 
+                onChange={() => onToggleSelection(todo.id)}
+            />
             <span className={styles.text}>{todo.text}</span>
             <div className={styles.actions}>
-                <button className={todo.complited ? styles.undoBtn : styles.completeBtn} onClick={() => onToggle(todo.id)}>{todo.complited ? 'Не выполнено' : 'Выполнено'}</button>
-                <button className={styles.moveBtn} onClick={() => onMoveUp(todo.id)} disabled={isFirst}>↑</button>
-                <button className={styles.moveBtn} onClick={() => onMoveDown(todo.id)} disabled={isLast}>↓</button>
-                <button className={styles.deleteBtn} onClick={() => onDelete(todo.id)}>x</button>
+            <Button 
+    variant={todo.complited ? 'danger' : 'success'}
+    onClick={() => onToggle(todo.id)}
+>
+    {todo.complited ? 'Не выполнено' : 'Выполнено'}
+</Button>
+
+<Button 
+    variant="move"
+    onClick={() => onMoveUp(todo.id)} 
+    disabled={isFirst}
+>
+    ↑
+</Button>
+
+<Button 
+    variant="move"
+    onClick={() => onMoveDown(todo.id)} 
+    disabled={isLast}
+>
+    ↓
+</Button>
+
+<Button 
+    variant="danger"
+    size="small"
+    onClick={() => onDelete(todo.id)}
+>
+    ✕
+</Button>
             </div>
         </div>
     )

@@ -1,6 +1,8 @@
 import styles from './TodoList.module.css'
-import { type Todo } from '../../App'
+import { type Todo } from '../../types/todo'
 import TodoItem from '../TodoItem/TodoItem'
+import Button from '../ui/Button/Button'
+
 type TodoListProps = {
     todos: Todo[]
     selectedIds: string[]
@@ -29,9 +31,9 @@ const TodoList = ({todos, selectedIds, onToggle, onDelete, onMoveUp, onMoveDown,
     return (
         <div className={styles.container}>
             <div className={styles.controls}>
-                <button className={styles.selectBtn} onClick={onSelectAll}>Выбрать все</button>
+                <Button variant='primary' onClick={onSelectAll}>Выбрать все</Button>
                 {hasSelection && (
-                    <button className={styles.clearBtn} onClick={onClearSelection}>Очистить выбор</button>
+                    <Button variant='secondary' onClick={onClearSelection}>Очистить выбор</Button>
                 )}
             </div>
             <div className={styles.list}>
@@ -52,8 +54,8 @@ const TodoList = ({todos, selectedIds, onToggle, onDelete, onMoveUp, onMoveDown,
             </div>
             {hasSelection && (
                 <div className={styles.bulkActions}>
-                    <button className={styles.bulkCompleteBtn} onClick={onBulkToggle}>{allSelectedCompleted ? 'Сделать невыполненным' : 'Сделать выполненным'}</button>
-                    <button className={styles.bulkDeleteBtn} onClick={onBulkDelete}>Удалить</button>
+                    <Button variant='success' onClick={onBulkToggle}>{allSelectedCompleted ? 'Сделать невыполненным' : 'Сделать выполненным'}</Button>
+                    <Button variant='danger' onClick={onBulkDelete}>Удалить</Button>
                 </div>
             )}
         </div>

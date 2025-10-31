@@ -1,0 +1,19 @@
+.wrapper {
+    position: relative;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease, background .15s ease;
+    background: #fff;
+  }
+  
+  .input:focus {
+    border-color: #2684ff;
+    box-shadow: 0 0 0 3px rgba(38,132,255,0.15);
+  }

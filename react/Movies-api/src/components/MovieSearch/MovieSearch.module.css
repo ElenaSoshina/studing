@@ -1,0 +1,20 @@
+.container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 16px 20px;
+    display: grid;
+    gap: 12px;
+  }
+  
+  .status {
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .error {
+    color: #d00;
+  }
+  
+  .empty {
+    color: #888;
+  }

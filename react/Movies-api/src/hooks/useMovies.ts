@@ -6,11 +6,11 @@ type Options = {
     debounceMs?: number
 }
 
-type State = {
-    status: 'idle' | 'loading' | 'error' | 'success'
-    movies: Movie[]
-    error: string | null
-}
+type Idle = {status: 'idle'}
+type Loading = {status: 'loading'}
+type Success = {status: 'success'; movies: Movie[]}
+type Error = {status: 'error'; error: string}
+type State = Idle | Loading | Success | Error
 
 type Action =
   | { type: 'SEARCH_START' }
@@ -18,22 +18,18 @@ type Action =
   | { type: 'SEARCH_ERROR'; payload: string }
   | { type: 'SEARCH_ABORTED' }
 
-const initialState: State = {
-    status: 'idle',
-    movies: [],
-    error: null
-}
+const initialState: State = {status: 'idle'}
 
 function reducer(state: State, action: Action): State {
     switch (action.type) {
         case 'SEARCH_START': 
-            return {...state, status: 'loading', error: null}
+            return {status: 'loading'}
         case 'SEARCH_SUCCESS':
-            return {status: 'success', movies: action.payload, error: null}
+            return {status: 'success', movies: action.payload}
         case 'SEARCH_ERROR':
-            return {...state, status: 'error', error: action.payload}
+            return { status: 'error', error: action.payload}
         case 'SEARCH_ABORTED': 
-            return {...state, status: 'idle'}
+            return { status: 'idle'}
         default:
             return state
     }
@@ -93,8 +89,5 @@ export function useMovies  (query: string, options: Options = {})  {
         }
     }, [query, baseUrl, debounceMs])
 
-    const { movies, error, status } = state
-    const isLoading = status === 'loading'
-
-    return {movies, isLoading, error}
+    return state
 }

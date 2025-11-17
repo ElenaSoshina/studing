@@ -4,11 +4,11 @@ import useDebounce from "./useDebounce"
 
 type Options = { baseUrl?: string; debounceMs?: number }
 
-type State = {
-  status: 'idle' | 'loading' | 'error' | 'success'
-  movies: Movie[]
-  error: string | null
-}
+type Idle = { status: 'idle' }
+type Loading = { status: 'loading' }
+type Success = { status: 'success'; movies: Movie[] }
+type ErrorState = { status: 'error'; error: string }
+type State = Idle | Loading | Success | ErrorState
 
 type Action =
   | { type: 'SEARCH_START' }
@@ -16,15 +16,20 @@ type Action =
   | { type: 'SEARCH_ERROR'; payload: string }
   | { type: 'SEARCH_ABORTED' }
 
-const initialState: State = { status: 'idle', movies: [], error: null }
+const initialState: State = { status: 'idle' }
 
 function reducer(state: State, action: Action): State {
   switch (action.type) {
-    case 'SEARCH_START': return { ...state, status: 'loading', error: null }
-    case 'SEARCH_SUCCESS': return { status: 'success', movies: action.payload, error: null }
-    case 'SEARCH_ERROR': return { ...state, status: 'error', error: action.payload }
-    case 'SEARCH_ABORTED': return { ...state, status: 'idle' }
-    default: return state
+    case 'SEARCH_START':
+      return { status: 'loading' }
+    case 'SEARCH_SUCCESS':
+      return { status: 'success', movies: action.payload }
+    case 'SEARCH_ERROR':
+      return { status: 'error', error: action.payload }
+    case 'SEARCH_ABORTED':
+      return { status: 'idle' }
+    default:
+      return state
   }
 }
 
@@ -51,7 +56,8 @@ export function useMovies(query: string, options: Options = {}) {
       dispatch({ type: 'SEARCH_SUCCESS', payload: data })
     } catch (error) {
       if (error instanceof Error && error.name === 'AbortError') {
-        dispatch({ type: 'SEARCH_ABORTED' }); return
+        dispatch({ type: 'SEARCH_ABORTED' })
+        return
       }
       const message = error instanceof Error ? error.message : 'Unknown error'
       dispatch({ type: 'SEARCH_ERROR', payload: message })
@@ -63,7 +69,5 @@ export function useMovies(query: string, options: Options = {}) {
     return () => { if (controllerRef.current) controllerRef.current.abort() }
   }, [query, runSearch])
 
-  const { movies, error, status } = state
-  const isLoading = status === 'loading'
-  return { movies, isLoading, error }
+  return state
 }

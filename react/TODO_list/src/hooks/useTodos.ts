@@ -1,6 +1,6 @@
-import { useReducer, useState, useCallback } from 'react'
+import { useReducer, useState, useCallback, useMemo } from 'react'
 import { todoReducer } from '../store/todoReducer'
-import type { Todo } from '../types/todo'
+// import type { Todo } from '../types/todo'
 
 export function useTodos() {
     const [todos, dispatch] = useReducer(todoReducer, [])
@@ -64,9 +64,9 @@ export function useTodos() {
     }, [selectedIds])
 
 
-    const allSelectedCompleted = selectedIds.length > 0 && selectedIds.every(id =>
+    const allSelectedCompleted = useMemo(() => selectedIds.length > 0 && selectedIds.every(id =>
         todos.find(todo => todo.id === id)?.complited
-    )
+    ), [selectedIds, todos])
 
     return {
         todos,

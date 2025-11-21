@@ -2,6 +2,7 @@ import styles from './TodoItem.module.css'
 import { type Todo } from '../../types/todo'
 import Button from '../ui/Button/Button'
 import Checkbox from '../ui/Checkbox/Checkbox'
+import { memo } from 'react'
 
 type TodoItemProps = {
     todo: Todo
@@ -59,4 +60,4 @@ const TodoItem = ({todo, onToggle, onDelete, isSelected, isFirst, isLast, onMove
     )
 }
 
-export default TodoItem
+export default memo(TodoItem)

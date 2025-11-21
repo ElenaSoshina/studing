@@ -1,6 +1,6 @@
 import type { InputHTMLAttributes } from "react"
 import styles from './Checkbox.module.css'
-import { forwardRef } from "react"
+import { forwardRef, memo } from "react"
 
 export type CheckboxSize = 'small' | 'medium' | 'large'
 
@@ -61,4 +61,4 @@ const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(({
 })
 
 Checkbox.displayName = 'Checkbox'
-export default Checkbox
+export default memo(Checkbox)

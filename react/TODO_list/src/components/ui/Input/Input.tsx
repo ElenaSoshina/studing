@@ -1,4 +1,4 @@
-import { forwardRef } from "react"
+import { forwardRef, memo } from "react"
 import type { InputHTMLAttributes } from "react"
 import styles from './Input.module.css'
 
@@ -69,4 +69,4 @@ const Input = forwardRef<HTMLInputElement, InputProps>(({
 })
 
 Input.displayName = 'Input'
-export default Input
+export default memo(Input)

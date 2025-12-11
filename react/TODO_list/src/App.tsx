@@ -2,6 +2,8 @@ import './App.css'
 import TodoApp from './components/TodoApp/TodoApp'
 import { ThemeProvider } from './contexts/ThemeContext'
 import ThemeToggle from './components/ThemeToggle/ThemeToggle'
+import ErrorBoundary from './components/ErrorBoundary/ErrorBoundary'
+import ErrorThrower from './components/ErrorThrower/ErrorThrower'
 
 function App() {
     return (
@@ -10,7 +12,10 @@ function App() {
           <ThemeToggle />
         </ThemeProvider>
 
-        <TodoApp />
+        <ErrorBoundary>
+          <ErrorThrower />
+         <TodoApp />
+        </ErrorBoundary>
       </>
     )
 }

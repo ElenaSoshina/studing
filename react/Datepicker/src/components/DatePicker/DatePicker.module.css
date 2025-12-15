@@ -1,0 +1,14 @@
+.root {
+    display: grid;
+    gap: 8px;
+    padding: 12px;
+  
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #ffffff;
+  }
+
+  .localeRow {
+    display: flex;
+    justify-content: flex-end;
+  }

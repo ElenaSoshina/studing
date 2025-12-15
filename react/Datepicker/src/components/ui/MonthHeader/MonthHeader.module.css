@@ -1,0 +1,15 @@
+.root {
+    display: grid;
+    grid-template-columns: 36px 1fr 36px;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+  }
+  
+  .label {
+    text-align: center;
+    font-weight: 600;
+    color: #111827;
+  }
+  
+  

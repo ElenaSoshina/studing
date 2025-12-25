@@ -1,6 +1,6 @@
 import { buildCalendarDays } from "./buildCalendarDays"
 import { parseISODate, startOfDay, type WeekStartsOn } from "./dateUtils"
-import { useEffect, useMemo, useReducer } from 'react'
+import { useEffect, useReducer } from 'react'
 import styles from './DatePicker.module.css'
 import MonthHeader from "../ui/MonthHeader/MonthHeader"
 import WeekdaysHeader from "../ui/WeekdaysHeader/WeekdaysHeader"
@@ -10,9 +10,8 @@ import LocaleSwitcher from "../ui/LocaleSwitcher/LocaleSwitcher"
 import { getInitialState, reducer } from "./datePickerReducer"
 
 export type DatePickerProps = {
-    value?: string
-    defaultValue?: string
-    onChange?: (value: string) => void
+    value: string
+    onChange: (value: string) => void
     locale?: string
     weekStartsOn?: WeekStartsOn
     onLocaleChange?: (locale: string) => void
@@ -23,7 +22,6 @@ export type DatePickerProps = {
 
 export function DatePicker ({
     value,
-    defaultValue,
     onChange,
     onLocaleChange,
     locale,
@@ -37,21 +35,9 @@ export function DatePicker ({
 }: DatePickerProps) {
     
     const isControlled = value !== undefined
-    const today = useMemo(() => startOfDay(new Date()), [])
-
-    const parsedValue = useMemo(() => (value ? parseISODate(value) : null), [value])
-    const parsedDefaultValue = useMemo(
-        () => (defaultValue ? parseISODate(defaultValue) : null),
-        [defaultValue]
-    )
-
-    const initialSelected = useMemo(() => {
-        if (parsedValue) return startOfDay(parsedValue)
-
-        if (parsedDefaultValue) return startOfDay(parsedDefaultValue)
-
-        return today
-    }, [parsedValue, parsedDefaultValue, today])
+    const today = startOfDay(new Date())
+    const parsedValue = value ? parseISODate(value) : null
+    const initialSelected = parsedValue ? startOfDay(parsedValue) : today
 
     const [state, dispatch] = useReducer(
         reducer,
@@ -61,11 +47,9 @@ export function DatePicker ({
 
     const effectiveLocale = locale ?? state.internalLocale
     const effectiveWeekStartsOn = weekStartsOn ?? state.internalWeekStartsOn
-
-    const selected = useMemo(() => {
-        if (!isControlled) return state.uncontrolledSelected
-        return parsedValue ? startOfDay(parsedValue) : today
-    }, [isControlled, state.uncontrolledSelected, parsedValue, today])
+    const selected = !isControlled
+        ? state.uncontrolledSelected
+        : (parsedValue ? startOfDay(parsedValue) : today)
 
     useEffect(() => {
         if (!isControlled) return 
@@ -74,23 +58,14 @@ export function DatePicker ({
         dispatch({ type: 'syncControlledValue', date: parsedValue })
     }, [isControlled, parsedValue])
 
-    const monthLabel = useMemo(() => {
-        return new Intl.DateTimeFormat(effectiveLocale, {month: 'long', year: 'numeric'}).format(state.viewDate)
-    }, [effectiveLocale, state.viewDate])
+    const monthLabel = new Intl.DateTimeFormat(effectiveLocale, { month: 'long', year: 'numeric' }).format(state.viewDate)
 
-    const days = useMemo(() => 
-        buildCalendarDays({
-            viewDate: state.viewDate,
-            selected,
-            today,
-            weekStartsOn: effectiveWeekStartsOn
-        })
-    , [
-        state.viewDate,
+    const days = buildCalendarDays({
+        viewDate: state.viewDate,
         selected,
         today,
-        effectiveWeekStartsOn
-    ])
+        weekStartsOn: effectiveWeekStartsOn
+    })
 
     const handleDayClick = (iso: string) => {
         const d = parseISODate(iso)

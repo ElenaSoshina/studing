@@ -11,7 +11,6 @@ const meta: Meta<typeof DatePicker> = {
   },
   argTypes: {
     value: { control: 'text' },
-    defaultValue: { control: 'text' },
     locale: { control: 'text' },
     weekStartsOn: { control: { type: 'inline-radio' }, options: [0, 1] },
     onChange: { action: 'change' },
@@ -32,26 +31,20 @@ export const DefaultToday: Story = {
   },
 };
 
-export const WithDefaultValue: Story = {
-  args: {
-    defaultValue: '2025-12-14',
-    locale: 'ru-RU',
-    weekStartsOn: 1,
-  },
-};
-
 export const ControlledLocaleSwitcher: Story = {
   render: () => {
     const [locale, setLocale] = useState<'ru-RU' | 'en-US'>('ru-RU');
+    const [value, setValue] = useState('2025-12-14');
 
     return (
       <DatePicker
         showLocaleSwitcher
+        value={value}
         locale={locale}
+        onChange={setValue}
         onLocaleChange={(next) => {
           if (next === 'ru-RU' || next === 'en-US') setLocale(next);
         }}
-        defaultValue="2025-12-14"
       />
     );
   },
@@ -61,6 +54,5 @@ export const WithInternalLocaleSwitcher: Story = {
   args: {
     showLocaleSwitcher: true,
     defaultLocale: 'ru-RU',
-    defaultValue: '2025-12-14',
   },
 };

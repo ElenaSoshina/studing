@@ -1,4 +1,3 @@
-import { useMemo } from "react"
 import styles from './WeekdaysHeader.module.css'
 
 export type WeekdaysHeaderProps = {
@@ -32,9 +31,7 @@ const WeekdaysHeader = ({
     format = 'short'
 }: WeekdaysHeaderProps) => {
 
-    const labels = useMemo(() => 
-        getWeekdayLabels(locale, weekStartsOn, format)
-    , [locale, weekStartsOn, format])
+    const labels = getWeekdayLabels(locale, weekStartsOn, format)
     return (
         <div className={styles.root} role="row">
         {labels.map((label) => (
